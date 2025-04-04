@@ -23,19 +23,6 @@ func Recoverer(next http.Handler, fn http.HandlerFunc) http.Handler {
 	})
 }
 
-// RequestSize limits the size a request's body may be.
-func RequestSize(bytes int64) func(http.Handler) http.Handler {
-	f := func(next http.Handler) http.Handler {
-		fn := func(w http.ResponseWriter, r *http.Request) {
-			r.Body = http.MaxBytesReader(w, r.Body, bytes)
-			next.ServeHTTP(w, r)
-		}
-		return http.HandlerFunc(fn)
-	}
-
-	return f
-}
-
 // CORS allows cross-site requests for the given origin.
 func CORS(origin string) func(http.Handler) http.Handler {
 	f := func(next http.Handler) http.Handler {

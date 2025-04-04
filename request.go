@@ -43,3 +43,16 @@ func RequestID(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+// RequestSize limits the size a request's body may be.
+func RequestSize(bytes int64) func(http.Handler) http.Handler {
+	f := func(next http.Handler) http.Handler {
+		fn := func(w http.ResponseWriter, r *http.Request) {
+			r.Body = http.MaxBytesReader(w, r.Body, bytes)
+			next.ServeHTTP(w, r)
+		}
+		return http.HandlerFunc(fn)
+	}
+
+	return f
+}
