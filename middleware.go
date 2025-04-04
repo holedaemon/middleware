@@ -10,17 +10,23 @@ import (
 
 // Recoverer recovers from any panics in the request chain, logs the recover
 // value and executes the given response handler.
-func Recoverer(next http.Handler, fn http.HandlerFunc) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		defer func() {
-			if rvr := recover(); rvr != nil {
-				slogx.Error(r.Context(), "PANIC", "value", rvr)
-				fn(w, r)
-			}
-		}()
+func Recoverer(recoverFunc http.HandlerFunc) func(next http.Handler) http.Handler {
+	f := func(next http.Handler) http.Handler {
+		fn := func(w http.ResponseWriter, r *http.Request) {
+			defer func() {
+				if rvr := recover(); rvr != nil {
+					slogx.Error(r.Context(), "PANIC", "value", rvr)
+					recoverFunc(w, r)
+				}
+			}()
 
-		next.ServeHTTP(w, r)
-	})
+			next.ServeHTTP(w, r)
+		}
+
+		return http.HandlerFunc(fn)
+	}
+
+	return f
 }
 
 // CORS allows cross-site requests for the given origin.
