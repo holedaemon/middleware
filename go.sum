@@ -1,0 +1,4 @@
+github.com/holedaemon/slogx v0.0.0-20250403141731-6a8a3ed8e638 h1:eB5Rti2s2Je48bg0F4fgPocnsjMwTIkE1vG/HfUokHs=
+github.com/holedaemon/slogx v0.0.0-20250403141731-6a8a3ed8e638/go.mod h1:wPj5HI/6F0u5YvCxTClhmQQ3gBTAuG+OEXwiPpBMqZs=
+github.com/rs/xid v1.6.0 h1:fV591PaemRlL6JfRxGDEPl69wICngIQ3shQtzfy2gxU=
+github.com/rs/xid v1.6.0/go.mod h1:7XoLgs4eV+QndskICGsho+ADou8ySMSjJKDIan90Nz0=
